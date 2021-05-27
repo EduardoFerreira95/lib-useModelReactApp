@@ -1,0 +1,1 @@
+export type ModelItemType = { absPath: string; namespace: string } | string;
