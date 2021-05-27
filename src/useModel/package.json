@@ -1,0 +1,29 @@
+{
+  "name": "nodeuseModel",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/parser": "^7.14.3",
+    "@babel/traverse": "^7.14.2",
+    "@babel/types": "^7.14.2",
+    "@types/node": "^15.6.1",
+    "fs": "^0.0.1-security",
+    "globby": "^11.0.3",
+    "os": "^0.1.1",
+    "path": "^0.12.7",
+    "ts-node": "^10.0.0",
+    "typescript": "^4.2.4"
+  },
+  "dependencies": {
+    "@types/babel__traverse": "^7.11.1",
+    "@types/filesystem": "^0.0.30",
+    "react": "^17.0.2"
+  }
+}
