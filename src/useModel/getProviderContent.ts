@@ -14,7 +14,7 @@ export const getPath = (absPath: string) => {
   return winPath(path.join(info.dir, info.name).replace(/'/, "'"));
 };
 
-function winPath(filePath: string) {
+export function winPath(filePath: string) {
   const isExtendedLengthPath = /^\\\\\?\\/.test(filePath);
   if (isExtendedLengthPath) {
     return filePath;
@@ -107,7 +107,7 @@ const genModels = (imports: string[]) => {
       enter(astPath) {
         if (astPath.isIdentifier({ name: 'useModel' })) {
           try {
-            const ns = (astPath.parentPath.node)[0].value;
+            const ns = (astPath.parentPath.node as any).arguments[0].value;
             if (allUserModel.includes(ns)) {
               use.push(ns);
             }
@@ -136,8 +136,6 @@ function getModels(files: string[]) {
     .map(model => `'${model.namespace.replace(/'/g, "\\'")}': ${model.importName}`)
     .join(', ');
 };
-
-getModels(getFiles(path.resolve(__dirname, '..', 'src', 'modules')));
 
 export const isValidHook = (filePath: string) => {
   const ast = parse(readFileSync(filePath, { encoding: 'utf-8' }).toString(), {
@@ -265,15 +263,15 @@ export type Model<T extends keyof typeof models> = {
 export type Models<T extends keyof typeof models> = Model<T>[T]
 const dispatcher = new Dispatcher!();
 const Exe = Executor!;
-export default ({ children }: { children: React.ReactNode }) => {
+export default function Provider ({ children }: { children: React.ReactNode }) {
   return (
     <UmiContext.Provider value={dispatcher}>
       {
         Object.entries(models).map(pair => (
           <Exe key={pair[0]} namespace={pair[0]} hook={pair[1] as any} onUpdate={(val: any) => {
-            const [ns] = pair as [keyof typeof models, any];
-            dispatcher.data[ns] = val;
-            dispatcher.update(ns);
+            const [namespace] = pair as [keyof typeof models, any];
+            dispatcher.data[namespace] = val;
+            dispatcher.update(namespace);
           }} />
         ))
       }

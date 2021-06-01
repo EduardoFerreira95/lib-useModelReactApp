@@ -1,15 +1,13 @@
 import React from 'react';
-import Satanas from './plugin-model';
-import logo from './logo.svg';
+import Provider from './plugin-model/Provider';
+import { UseModelComponent } from './UseModel';
 import './App.css';
 
 function App() {
   return (
-    <Satanas>
-      <div>
-        <h1>Hello Manzoli</h1>
-      </div>
-    </Satanas>
+    <Provider>
+      <UseModelComponent />
+    </Provider>
   );
 }
 

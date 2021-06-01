@@ -14,16 +14,21 @@ export type Model<T extends keyof typeof models> = {
 export type Models<T extends keyof typeof models> = Model<T>[T]
 const dispatcher = new Dispatcher!();
 const Exe = Executor!;
-export default ({ children }: { children: React.ReactNode }) => {
+export default function Provider ({ children }: { children: React.ReactNode }) {
   return (
     <UmiContext.Provider value={dispatcher}>
       {
         Object.entries(models).map(pair => (
           <Exe key={pair[0]} namespace={pair[0]} hook={pair[1] as any} onUpdate={(val: any) => {
-            // const [ns] = pair as [keyof typeof models, any];
-            // {console.log({ val })}
-            // dispatcher.data[ns] = val;
-            // dispatcher.update(ns);
+            const [namespace] = pair as [keyof typeof models, any];
+            const hook = Object.entries(dispatcher.data).find(data => data === namespace);
+
+            console.log({ hook });
+            if (hook) {
+              hook[1] = val;
+              dispatcher.update(namespace);
+            }
+            dispatcher.update(namespace);
           }} />
         ))
       }

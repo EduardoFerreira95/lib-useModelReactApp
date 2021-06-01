@@ -1,7 +1,7 @@
 export default class Dispatcher {
-  callbacks = {};
+  callbacks = {} as any;
 
-  data = {};
+  data = {} as any;
 
   update = (namespace: string) => {
     (this.callbacks[namespace] || []).forEach((callback: (val: any) => void) => {
